@@ -1,0 +1,36 @@
+apply plugin: 'flyway'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+mainClassName = "com.valphi.sismo.processor.FlyWayProcessor"
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.postgresql:postgresql:9.4-1205-jdbc42'
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
+    }
+}
+
+dependencies {
+    compile 'com.beust:jcommander:1.48'
+    compile 'org.flywaydb:flyway-core:3.2.1'
+    compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
+}
+
+

@@ -1,0 +1,32 @@
+apply plugin: "idea"
+
+subprojects {
+    apply plugin: "java"
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        //logging libraries
+        compile 'ch.qos.logback:logback-classic:1.1.1'
+        compile 'org.slf4j:slf4j-api:1.7.12'
+        compile('org.slf4j:slf4j-ext:1.7.12') {
+            exclude group: 'ch.qos.cal10n', module: 'cal10n-api'
+        }
+        compile 'org.slf4j:jcl-over-slf4j:1.7.12'
+    }
+}
+
+idea {
+    project {
+        languageLevel = JavaVersion.VERSION_1_8
+        modules = [project(':database').idea.module,
+                   project(':client').idea.module]
+    }
+}
