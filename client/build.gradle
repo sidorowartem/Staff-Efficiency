@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'jetty'
 apply plugin: 'idea'
 
 compileJava {
@@ -23,27 +22,18 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.postgresql:postgresql:9.4-1205-jdbc42'
+        classpath 'org.postgresql:postgresql:9.3-1101-jdbc41'
     }
-}
-
-configurations {
-    runtime.exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 dependencies {
     def springVersion = '4.2.2.RELEASE'
 
-    //stuff
-    compile 'commons-lang:commons-lang:2.6'
-
-    //database access
-    compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
+    //database
+    compile 'org.postgresql:postgresql:9.3-1101-jdbc41'
 
     //spring
-    compile('org.springframework:spring-webmvc:' + springVersion) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
+    compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-jdbc:' + springVersion
     compile 'org.springframework:spring-context-support:' + springVersion
 
@@ -56,24 +46,9 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.0'
 
-    testCompile 'org.testng:testng:6.9.6'
-    testCompile 'org.mockito:mockito-all:1.10.19'
-
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 }
 
 war {
     archiveName = 'StaffEfficiency.war'
-
-    manifest {
-        attributes("Build-Time": new Date())
-        attributes("Current-revision": getGitInfo())
-    }
-}
-
-def getGitInfo() {
-    def gitHash = "git rev-parse --short HEAD".execute().text.trim()
-    def gitBranch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
-    println "Working branch: " + gitBranch + ", hash: " + gitHash
-    return gitHash
 }
