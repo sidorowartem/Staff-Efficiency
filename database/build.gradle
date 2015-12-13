@@ -1,9 +1,6 @@
 apply plugin: 'flyway'
 apply plugin: 'java'
-apply plugin: 'application'
 apply plugin: 'idea'
-
-mainClassName = "com.valphi.sismo.processor.FlyWayProcessor"
 
 compileJava {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -22,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.postgresql:postgresql:9.4-1205-jdbc42'
+        classpath 'org.postgresql:postgresql:9.3-1101-jdbc41'
         classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
     }
 }
@@ -32,5 +29,14 @@ dependencies {
     compile 'org.flywaydb:flyway-core:3.2.1'
     compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
 }
+def props = new Properties()
+file("src/main/resources/env.properties").withInputStream {
+    stream -> props.load(stream)
+}
 
+flyway {
+    user = props.getProperty("db.username")
+    password = props.getProperty("db.password")
+    url = props.getProperty("db.url")
+}
 
